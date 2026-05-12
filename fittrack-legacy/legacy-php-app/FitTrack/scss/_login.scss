@@ -1,0 +1,48 @@
+// Login Modal Styling
+.modal-content {
+  border-radius: 1rem; // Matches the card border-radius
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); // Slight shadow for depth
+
+  .modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+    border-radius: 1rem 1rem 0 0;
+
+    .modal-title {
+      font-weight: 600;
+    }
+  }
+
+  .modal-body {
+    padding: 1.5rem;
+
+    .form-label {
+      font-weight: 500;
+    }
+
+    .form-control {
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      &:focus {
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        border-color: #007bff;
+      }
+    }
+  }
+
+  .modal-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #ddd;
+    text-align: center;
+    border-radius: 0 0 1rem 1rem;
+
+    a {
+      color: #007bff;
+      text-decoration: underline;
+
+      &:hover {
+        color: #0056b3;
+      }
+    }
+  }
+}

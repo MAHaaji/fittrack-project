@@ -1,0 +1,54 @@
+#pageActivities {
+  // Variables
+  $card-border-color: #f0f0f0;
+  $card-shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.2);
+  $card-img-height: 200px;
+
+  // Card Styles
+  .card {
+    height: 100%; // Uniform height for all cards
+    border: 1px solid $card-border-color; // Light border
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    border-radius: 16px; // Rounded corners
+
+    &:hover {
+      transform: translateY(-5px); // Subtle hover effect
+      box-shadow: $card-shadow-hover;
+    }
+
+    &-img-top {
+      height: $card-img-height; // Consistent image height
+      object-fit: cover; // Proper scaling for images
+      border-radius: 16px 16px 0 0; // Top rounded corners for the image
+    }
+
+    &-title {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    &-text {
+      font-size: 0.9rem;
+      color: #6c757d;
+    }
+  }
+
+  // Shadow utility
+  .shadow {
+    box-shadow: $card-shadow-hover;
+  }
+
+  // Button
+  .btn-primary {
+    background-color: #6ebc67;
+    border: none;
+
+    &:hover {
+      background-color: #00ff7f;
+      color: #000;
+    }
+  }
+}

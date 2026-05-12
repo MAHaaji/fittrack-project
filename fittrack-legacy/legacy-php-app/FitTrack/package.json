@@ -1,0 +1,17 @@
+{
+  "name": "Activity-package",
+  "version": "1.0.0",
+  "description": "Activity web",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "^5.3.3"
+  },
+  "devDependencies": {
+    "sass": "^1.83.0"
+  },
+  "scripts": {
+    "build-sass": "sass scss/main.scss css/style.css",
+    "watch-sass": "sass --watch scss/main.scss:css/style.css"
+  }
+}

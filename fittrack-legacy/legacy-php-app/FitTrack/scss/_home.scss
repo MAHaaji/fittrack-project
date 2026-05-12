@@ -1,0 +1,158 @@
+#homepage {
+  #heroCarousel {
+    height: 600px;
+    .swiper-slide {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-size: cover;
+      background-position: center;
+      z-index: 1;
+      .slider-content {
+        width: 900px;
+        max-width: 100%;
+        padding: 0 50px;
+        margin: auto;
+        color: #fff;
+        text-shadow: 0px 0px 20px rgb(0 0 0 / 40%);
+        h2 {
+          color: #00ff7f;
+          font-size: 56px;
+          @media screen and (max-width: 992px) {
+            font-size: 44px;
+          }
+          @media screen and (max-width: 400px) {
+            font-size: 32px;
+          }
+        }
+        h3 {
+          font-size: 32px;
+          text-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+          margin-top: 20px;
+          margin-bottom: 30px;
+          @media screen and (max-width: 992px) {
+            font-size: 26px;
+          }
+          @media screen and (max-width: 400px) {
+            font-size: 22px;
+          }
+        }
+        p {
+          font-size: 20px;
+          font-style: italic;
+          @media screen and (max-width: 992px) {
+            font-size: 18px;
+          }
+          @media screen and (max-width: 400px) {
+            font-size: 16px;
+          }
+        }
+        @media screen and (max-width: 992px) {
+          padding: 0 30px;
+        }
+      }
+      &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgb(0 0 0 / 40%);
+        z-index: -1;
+      }
+    }
+    .swiper-button-prev {
+      color: #fff;
+      left: 50px;
+      @media screen and (max-width: 992px) {
+        left: 10px;
+      }
+      @media screen and (max-width: 500px) {
+        left: 0px;
+      }
+    }
+    .swiper-button-next {
+      color: #fff;
+      right: 50px;
+      @media screen and (max-width: 992px) {
+        right: 10px;
+      }
+      @media screen and (max-width: 500px) {
+        right: 0px;
+      }
+    }
+    .swiper-button-next:after,
+    .swiper-button-prev:after {
+      @media screen and (max-width: 992px) {
+        font-size: 20px;
+      }
+    }
+    @media screen and (max-width: 768px) {
+      height: 500px;
+    }
+  }
+
+  $card-border-color: #f0f0f0;
+  $card-shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.2);
+  $card-img-height: 250px;
+  $btn-radius: 20px;
+
+  .card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    padding: 1rem 1rem 1.5rem;
+    border: 1px solid $card-border-color;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: $card-shadow-hover;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+
+    &-img-top {
+      height: $card-img-height;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    &-title {
+      margin-bottom: 0.5rem;
+    }
+
+    &-text {
+      margin-bottom: 1rem;
+      color: #6c757d;
+    }
+
+    &-footer {
+      padding-top: 0.5rem;
+      background-color: transparent;
+      border: 0;
+    }
+
+    &:hover .btn-primary {
+      background-color: #00ff7f;
+      color: #000;
+    }
+  }
+
+  .btn-primary {
+    padding: 0.5rem 1.5rem;
+    border-radius: $btn-radius;
+    background-color: #6ebc67;
+    transition: all 0.5s ease;
+  }
+
+  .border-light {
+    border-color: $card-border-color;
+  }
+}

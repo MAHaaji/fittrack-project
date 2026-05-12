@@ -1,0 +1,13 @@
+@use "nav";
+@use "home";
+@use "categories";
+@use "activities";
+@use "activity";
+@use "search";
+@use "login";
+@use "profile";
+@use "api";
+
+body {
+  font-family: "Roboto", serif;
+}

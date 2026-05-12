@@ -1,0 +1,52 @@
+nav {
+  .site-logo {
+    height: 50px;
+    @media screen and (max-width: 400px) {
+      height: 32px;
+    }
+  }
+  .nav-user-img {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+  }
+
+  .search-form {
+    border-bottom: 1px solid #6ebc67 !important;
+  }
+  .search-input {
+    background: transparent;
+    border-radius: 0;
+    padding-left: 0;
+  }
+
+  .search-icon {
+    border: none;
+    background: none;
+    color: #333;
+  }
+
+  a.nav-link {
+    font-family: "Anton", serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #000;
+  }
+
+  a.nav-link.active {
+    color: #6ebc67 !important;
+  }
+
+  .nav-user-icon {
+    width: 32px;
+    height: 32px;
+    background-color: #6ebc67;
+  }
+
+  .btn-login {
+    background-color: #6ebc67;
+  }
+  .hide {
+    display: none;
+  }
+}
