@@ -9,6 +9,9 @@ import MainLayout from "./layouts/MainLayout";
 import CategoryPage from "./pages/CategoryPage";
 import ActivityDetailPage from "./pages/ActivityDetailPage";
 import SearchPage from "./pages/SearchPage";
+import PricingPage from "./pages/PricingPage";
+import CompetitionsPage from "./pages/CompetitionsPage";
+import FAQPage from "./pages/FAQPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -23,6 +26,9 @@ function App() {
           <Route path="/activities/:categoryName" element={<CategoryPage />} />
           <Route path="/activities/:categoryName/:activityName" element={<ActivityDetailPage />} />
           <Route path="/search" element={<SearchPage />} />
+          <Route path="/pricing" element={<PricingPage />} />
+          <Route path="/competitions" element={<CompetitionsPage />} />
+          <Route path="/faq" element={<FAQPage />} />
           <Route path="/workout-log" element={
             <ProtectedRoute><WorkoutLogPage /></ProtectedRoute>
           } />

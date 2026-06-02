@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { apiFetch } from "../utils/api";
 import { useAuth } from "../context/AuthContext";
+import WeatherWidget from "../components/WeatherWidget";
 
 function DashboardPage() {
   const { user } = useAuth();
@@ -53,6 +54,8 @@ function DashboardPage() {
       <p style={{ fontSize: "14px", color: "#888", marginBottom: "36px" }}>
         {user?.name ? `Good to see you, ${user.name}.` : "Welcome back."} Here's your activity summary.
       </p>
+      
+         <WeatherWidget />
 
       {loading && (
         <p style={{ fontSize: "14px", color: "#aaa" }}>Loading...</p>
