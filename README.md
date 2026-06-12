@@ -3,15 +3,13 @@
 ![React](https://img.shields.io/badge/React-19.2.4-61DAFB?style=flat-square&logo=react&logoColor=black)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-database-4169E1?style=flat-square&logo=postgresql&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-8.0.1-646CFF?style=flat-square&logo=vite&logoColor=white)
-
-![Tests](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml/badge.svg)
 ![License](https://img.shields.io/badge/license-ISC-blue?style=flat-square)
 
 ---
 
 # FitTrack
 
-> A full-stack fitness tracking application. Log workouts, monitor your history, and visualise progress through a personal dashboard — secured with JWT authentication and backed by PostgreSQL.
+> A full-stack fitness tracking application. Log workouts, monitor your history, and visualise progress through a personal dashboard secured with JWT authentication and backed by PostgreSQL.
 
 ---
 
@@ -366,7 +364,7 @@ Validation rules: name required · email must be valid format · password min 8 
 
 | Method | Endpoint | Auth | Description |
 |---|---|---|---|
-| `GET` | `/api/users/me` | ✅ Required | Get authenticated user's profile |
+| `GET` | `/api/users/me` | Required | Get authenticated user's profile |
 
 ```json
 // 200 OK
@@ -395,9 +393,9 @@ Validation rules: name required · email must be valid format · password min 8 
 
 | Method | Endpoint | Auth | Description |
 |---|---|---|---|
-| `GET` | `/api/workouts` | ✅ Required | Get all workouts for authenticated user |
-| `POST` | `/api/workouts` | ✅ Required | Log a new workout |
-| `DELETE` | `/api/workouts/:id` | ✅ Required | Delete a workout by ID |
+| `GET` | `/api/workouts` | Required | Get all workouts for authenticated user |
+| `POST` | `/api/workouts` | Required | Log a new workout |
+| `DELETE` | `/api/workouts/:id` | Required | Delete a workout by ID |
 
 **POST `/api/workouts`**
 
@@ -431,7 +429,7 @@ Returns `204 No Content` on success. Returns `404` if the workout doesn't exist 
 
 | Method | Endpoint | Auth | Description |
 |---|---|---|---|
-| `GET` | `/api/dashboard` | ✅ Required | Aggregate stats + 5 most recent workouts |
+| `GET` | `/api/dashboard` | Required | Aggregate stats + 5 most recent workouts |
 
 ```json
 // 200 OK
@@ -505,13 +503,13 @@ Push / Pull Request
   npm test (Jest)
        │
     ┌──┴──┐
-    ✅     ❌
+         
   Pass   Fail
 ```
 
 > Client-side tests (Vitest) will be added to the pipeline once the suite is configured — see the comment in `ci.yml`.
 
-A green ✅ check on a pull request means all API tests pass and the branch is safe to merge.
+A green check on a pull request means all API tests pass and the branch is safe to merge.
 
 ---
 
@@ -527,14 +525,6 @@ A green ✅ check on a pull request means all API tests pass and the branch is s
 | SEO | 100 |
 
 **Security:** passwords are hashed with bcrypt (salted, 10 rounds); sessions use signed JWTs verified on every protected route; and all database access uses parameterised queries to prevent SQL injection. A full security appraisal (OWASP Top 10 / STRIDE) is maintained alongside the project. Known hardening items recorded as future work include rate limiting on authentication routes, a Content-Security-Policy, and HSTS.
-
----
-
-## Screenshots
-
-> _Add screenshots of the running app here (e.g. dashboard, login, workout log)._
->
-> ![Dashboard](docs/screenshots/dashboard.png)
 
 ---
 
