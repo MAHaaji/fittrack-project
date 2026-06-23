@@ -21,11 +21,11 @@ function Navbar() {
 
   function handleLogout() {
     logout();
-    navigate("/");
+    navigate("/login");
   }
 
   const mainLinks = [
-    { to: "/", label: "Home" },
+    { to: "/home", label: "Home" },
     { to: "/activities", label: "Activities" },
     { to: "/workout-log", label: "Workout Log" },
     { to: "/competitions", label: "Compete" },
@@ -40,7 +40,7 @@ function Navbar() {
     <nav style={{ background: "#fff", borderBottom: "1px solid #e8e8e3", padding: "0 32px", height: "64px", display: "flex", alignItems: "center", justifyContent: "space-between", position: "sticky", top: 0, zIndex: 100 }}>
 
       <div style={{ display: "flex", alignItems: "center", gap: "32px" }}>
-        <Link to="/" style={{ fontFamily: "'Anton', serif", fontSize: "22px", letterSpacing: "1px", color: "#1a1a1a", textDecoration: "none", display: "flex", alignItems: "center", gap: "8px" }}>
+        <Link to="/home" style={{ fontFamily: "'Anton', serif", fontSize: "22px", letterSpacing: "1px", color: "#1a1a1a", textDecoration: "none", display: "flex", alignItems: "center", gap: "8px" }}>
           <span style={{ width: "8px", height: "8px", background: "#6ebc67", borderRadius: "50%", display: "inline-block" }} />
           FitTrack
         </Link>
