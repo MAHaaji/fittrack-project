@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import API_BASE from "../config";
+import Footer from "../components/Footer";
 
 const fieldStyle = {
   width: "100%", padding: "11px 14px",
@@ -62,6 +63,7 @@ function LoginPage() {
   const focusStyle = { borderColor: "#6ebc67" };
 
   return (
+    <>
     <main style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "40px 16px", background: "#f8f8f5" }}>
       <div style={{ background: "#fff", borderRadius: "20px", border: "1px solid #ebebeb", padding: "40px 36px", width: "100%", maxWidth: "400px" }}>
 
@@ -134,6 +136,8 @@ function LoginPage() {
 
       </div>
     </main>
+    <Footer />
+    </>
   );
 }
 
