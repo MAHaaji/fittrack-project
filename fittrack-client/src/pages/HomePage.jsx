@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import API_BASE from "../config";
 import { useAuth } from "../context/AuthContext";
+import Footer from "../components/Footer";
 
 function HomePage() {
   const [apiStatus, setApiStatus] = useState("checking");
@@ -23,6 +24,7 @@ function HomePage() {
   }[apiStatus];
 
   return (
+    <>
     <main style={{ fontFamily: "'DM Sans', sans-serif", background: "#f8f8f5", minHeight: "100vh" }}>
 
       {/* HERO — background.jpg */}
@@ -207,6 +209,8 @@ function HomePage() {
       </section>
 
     </main>
+    <Footer />
+    </>
   );
 }
 
