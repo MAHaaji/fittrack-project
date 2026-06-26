@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Footer from "../components/Footer";
 
 const categories = [
   {
@@ -54,6 +55,7 @@ export default function FAQPage() {
     : null;
 
   return (
+    <>
     <main style={{ background: "#f8f8f5", minHeight: "100vh", padding: "56px 32px 80px" }}>
 
       {/* Header */}
@@ -170,6 +172,8 @@ export default function FAQPage() {
         </div>
       </div>
     </main>
+     <Footer />
+    </>
   );
 }
 
