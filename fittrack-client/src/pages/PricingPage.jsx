@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { apiFetch } from "../utils/api";
 
 const plans = [
   {
@@ -26,6 +27,7 @@ const plans = [
   },
   {
     name: "Pro",
+    planKey: "pro",
     price: { monthly: "£4.99", annual: "£3.99" },
     tag: "Most Popular",
     description: "For anyone serious about tracking and improving their fitness.",
@@ -47,6 +49,7 @@ const plans = [
   },
   {
     name: "Elite",
+    planKey: "elite",
     price: { monthly: "£9.99", annual: "£7.99" },
     tag: null,
     description: "Compete, connect, and push your limits with the full FitTrack experience.",
@@ -78,7 +81,44 @@ const faqs = [
 export default function PricingPage() {
   const [annual, setAnnual] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
+  const [checkoutLoadingPlan, setCheckoutLoadingPlan] = useState(null);
+  const [checkoutError, setCheckoutError] = useState("");
   const { user } = useAuth();
+
+  // Starts a Stripe Checkout session for a paid plan.
+  //
+  // What happens here:
+  //   1. We ask OUR backend to create the session (the backend holds the
+  //      Stripe secret key — it never touches this file or the browser).
+  //   2. The backend replies with just a URL — no card fields, no secrets.
+  //   3. We redirect the whole browser tab to that URL. From this point on
+  //      the user is on a page hosted by Stripe, not by FitTrack — card
+  //      details are typed there, not here.
+  // This component never sees, stores, or transmits real card data.
+  async function startCheckout(planKey) {
+    setCheckoutError("");
+    setCheckoutLoadingPlan(planKey);
+
+    try {
+      const response = await apiFetch("/api/payments/create-checkout-session", {
+        method: "POST",
+        body: JSON.stringify({ plan: planKey }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.url) {
+        throw new Error(data.message || "Unable to start checkout.");
+      }
+
+      // Full-page redirect to Stripe's hosted Checkout page.
+      window.location.href = data.url;
+    } catch (err) {
+      console.error("Stripe checkout failed:", err);
+      setCheckoutError(err.message || "Something went wrong starting checkout.");
+      setCheckoutLoadingPlan(null);
+    }
+  }
 
   return (
     <main style={{ background: "#f8f8f5", minHeight: "100vh", padding: "56px 32px 80px" }}>
@@ -168,28 +208,62 @@ export default function PricingPage() {
                 ))}
               </div>
 
-              <Link
-                to={user ? "/dashboard" : plan.ctaTo}
-                style={{
-                  display: "block",
-                  textAlign: "center",
-                  padding: "13px",
-                  borderRadius: "10px",
-                  fontFamily: "'Anton', serif",
-                  fontSize: "14px",
-                  letterSpacing: "0.5px",
-                  textTransform: "uppercase",
-                  textDecoration: "none",
-                  background: plan.ctaStyle === "filled" ? "#6ebc67" : plan.ctaStyle === "dark" ? "#6ebc67" : "transparent",
-                  color: plan.ctaStyle === "outline" ? "#1a1a1a" : "#fff",
-                  border: plan.ctaStyle === "outline" ? "1.5px solid #ddd" : "none",
-                  transition: "opacity 0.15s",
-                }}
-                onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
-                onMouseLeave={e => e.currentTarget.style.opacity = "1"}
-              >
-                {plan.cta}
-              </Link>
+              {plan.planKey && user ? (
+                // Logged-in user picking a paid plan → start Stripe Checkout
+                <button
+                  onClick={() => startCheckout(plan.planKey)}
+                  disabled={checkoutLoadingPlan === plan.planKey}
+                  style={{
+                    display: "block",
+                    width: "100%",
+                    textAlign: "center",
+                    padding: "13px",
+                    borderRadius: "10px",
+                    fontFamily: "'Anton', serif",
+                    fontSize: "14px",
+                    letterSpacing: "0.5px",
+                    textTransform: "uppercase",
+                    border: "none",
+                    cursor: checkoutLoadingPlan === plan.planKey ? "default" : "pointer",
+                    background: plan.ctaStyle === "filled" ? "#6ebc67" : plan.ctaStyle === "dark" ? "#6ebc67" : "transparent",
+                    color: plan.ctaStyle === "outline" ? "#1a1a1a" : "#fff",
+                    opacity: checkoutLoadingPlan === plan.planKey ? 0.7 : 1,
+                    transition: "opacity 0.15s",
+                  }}
+                >
+                  {checkoutLoadingPlan === plan.planKey ? "Redirecting to Stripe…" : plan.cta}
+                </button>
+              ) : (
+                // Logged-out visitors (or the free Starter plan) just navigate
+                <Link
+                  to={user ? "/dashboard" : plan.ctaTo}
+                  style={{
+                    display: "block",
+                    textAlign: "center",
+                    padding: "13px",
+                    borderRadius: "10px",
+                    fontFamily: "'Anton', serif",
+                    fontSize: "14px",
+                    letterSpacing: "0.5px",
+                    textTransform: "uppercase",
+                    textDecoration: "none",
+                    background: plan.ctaStyle === "filled" ? "#6ebc67" : plan.ctaStyle === "dark" ? "#6ebc67" : "transparent",
+                    color: plan.ctaStyle === "outline" ? "#1a1a1a" : "#fff",
+                    border: plan.ctaStyle === "outline" ? "1.5px solid #ddd" : "none",
+                    transition: "opacity 0.15s",
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
+                  onMouseLeave={e => e.currentTarget.style.opacity = "1"}
+                >
+                  {plan.cta}
+                </Link>
+              )}
+
+              {checkoutError && checkoutLoadingPlan === null && plan.planKey && (
+                <p style={{ fontSize: "12px", color: "#c0392b", marginTop: "10px", textAlign: "center" }}>
+                  {checkoutError}
+                </p>
+              )}
             </div>
           );
         })}
