@@ -5,7 +5,6 @@ import Footer from "../components/Footer";
 const categories = [
   {
     label: "General",
-    icon: "💬",
     faqs: [
       { q: "What is FitTrack?", a: "FitTrack is a fitness tracking platform that helps you discover exercises, log your workouts, track progress over time, and compete with a community of like-minded people. Whether you're just starting out or already training hard, FitTrack has tools for every level." },
       { q: "Is FitTrack free to use?", a: "Yes — FitTrack has a free Starter tier that gives you access to the activity library, search, and basic workout logging. For unlimited logging, charts, and competitions, you can upgrade to Pro or Elite." },
@@ -15,7 +14,6 @@ const categories = [
   },
   {
     label: "Account",
-    icon: "👤",
     faqs: [
       { q: "How do I create an account?", a: "Click 'Register' in the navigation bar, enter your name, email, and a password of at least 8 characters. That's it — your account is ready immediately." },
       { q: "I forgot my password — what do I do?", a: "Password reset is coming soon. In the meantime, contact us at support@fittrack.io and we'll sort it within 24 hours." },
@@ -25,7 +23,6 @@ const categories = [
   },
   {
     label: "Workout Logging",
-    icon: "📋",
     faqs: [
       { q: "How do I log a workout?", a: "Go to Workout Log in the navigation, pick an activity from the dropdown, set the date and optional duration, add any notes, and hit 'Add Workout'. It's saved to your history immediately." },
       { q: "Can I edit a workout after saving it?", a: "Editing is on our near-term roadmap. For now, you can delete a logged entry and re-add it with the correct details." },
@@ -35,7 +32,6 @@ const categories = [
   },
   {
     label: "Competitions",
-    icon: "🏆",
     faqs: [
       { q: "How do competitions work?", a: "Each competition runs for a set period (usually one month) with a specific goal — most km run, most workouts completed, fastest 5K, etc. You join the challenge, log your relevant activities as normal, and your progress is automatically tracked on the leaderboard." },
       { q: "Which plan do I need to enter competitions?", a: "Competitions are available on the Pro and Elite plans. Elite members also get early access to new challenges." },

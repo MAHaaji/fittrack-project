@@ -159,7 +159,7 @@ export default function CompetitionsPage() {
       {!user && (
         <div style={{ background: "#fff", borderRadius: "12px", border: "1px solid #ebebeb", padding: "16px 20px", marginBottom: "32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px", flexWrap: "wrap" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <span style={{ fontSize: "18px" }}>🏆</span>
+            <span style={{ fontSize: "18px" }}></span>
             <span style={{ fontSize: "14px", color: "#555" }}>
               Log in to view the live leaderboard and participate by recording workouts.
             </span>

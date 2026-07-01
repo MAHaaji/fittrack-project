@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 
-// Maps Open-Meteo's WMO weather codes to a short label + emoji.
+
 // Reference: https://open-meteo.com/en/docs (WMO Weather interpretation codes)
 function describeWeather(code) {
-  if (code === 0) return { label: "Clear sky", icon: "☀️" };
-  if ([1, 2, 3].includes(code)) return { label: "Partly cloudy", icon: "⛅" };
-  if ([45, 48].includes(code)) return { label: "Foggy", icon: "🌫️" };
-  if ([51, 53, 55, 56, 57].includes(code)) return { label: "Drizzle", icon: "🌦️" };
-  if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return { label: "Rain", icon: "🌧️" };
-  if ([71, 73, 75, 77, 85, 86].includes(code)) return { label: "Snow", icon: "❄️" };
-  if ([95, 96, 99].includes(code)) return { label: "Thunderstorm", icon: "⛈️" };
+  if (code === 0) return { label: "Clear sky",  };
+  if ([1, 2, 3].includes(code)) return { label: "Partly cloudy", };
+  if ([45, 48].includes(code)) return { label: "Foggy", };
+  if ([51, 53, 55, 56, 57].includes(code)) return { label: "Drizzle",};
+  if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return { label: "Rain",  };
+  if ([71, 73, 75, 77, 85, 86].includes(code)) return { label: "Snow",};
+  if ([95, 96, 99].includes(code)) return { label: "Thunderstorm" ,};
   return { label: "Unknown", icon: "🌡️" };
 }
 

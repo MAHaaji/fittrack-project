@@ -15,8 +15,8 @@ function DashboardPage() {
   const [error, setError] = useState("");
 
   // Chart controls
-  const [chartMetric, setChartMetric] = useState("count");  // "count" | "duration"
-  const [chartPeriod, setChartPeriod] = useState("week");   // "week" | "month"
+  const [chartMetric, setChartMetric] = useState("count"); 
+  const [chartPeriod, setChartPeriod] = useState("week");  
 
   useEffect(() => {
     // Fetch dashboard stats + recent workouts
@@ -38,7 +38,7 @@ function DashboardPage() {
 
   // ── Formatters ────────────────────────────────────────────────────────────
 
-  // Individual workout display: seconds → "26:33" or "1:04:21"
+  
   function formatDuration(seconds) {
     if (seconds == null || seconds === "") return null;
     const totalSecs = Number(seconds);
@@ -50,7 +50,7 @@ function DashboardPage() {
     return `${m}:${String(s).padStart(2, "0")}`;
   }
 
-  // Stat cards: total seconds → "2h 11m" or "26m 33s"
+  
   function formatSeconds(totalSecs) {
     if (!totalSecs) return "0:00";
     const secs = Number(totalSecs);
@@ -95,7 +95,7 @@ function DashboardPage() {
       buckets[key].duration += log.duration ? Math.round(log.duration / 60) : 0; // minutes
     });
 
-    // allWorkouts is newest-first; reverse so chart reads left→right chronologically
+    
     return Object.values(buckets).reverse();
   }, [allWorkouts, chartPeriod]);
 

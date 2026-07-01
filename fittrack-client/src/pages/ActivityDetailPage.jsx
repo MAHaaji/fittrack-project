@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import API_BASE from "../config";
 
-// Category-based images and tips using our real images
+
 const categoryContent = {
   Running: {
     img: "/images/running.jpg",

@@ -7,7 +7,7 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // on first load, check if there's a token already saved
+ 
   useEffect(() => {
     const savedToken = localStorage.getItem("fittrack_token");
     const savedUser = localStorage.getItem("fittrack_user");
@@ -39,7 +39,7 @@ export function AuthProvider({ children }) {
   );
 }
 
-// custom hook so any component can just do: const { user, token } = useAuth()
+
 export function useAuth() {
   return useContext(AuthContext);
 }

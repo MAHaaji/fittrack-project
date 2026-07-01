@@ -1,8 +1,6 @@
 import { jest } from "@jest/globals";
 import request from "supertest";
 
-// Replace the real "pg" library with a fake one BEFORE we load the app.
-// The fake Pool just records query() calls; no real database is touched.
 const mockQuery = jest.fn();
 jest.unstable_mockModule("pg", () => ({
   Pool: jest.fn(() => ({ query: mockQuery, connect: jest.fn() })),

@@ -1,11 +1,13 @@
 node_modules/
-.env
-.DS_Store
 dist/
 build/
 coverage/
+.DS_Store
 
-# secrets — never commit these
+# secrets - never commit these
 .env
 .env.local
-.env*.local
+.env.*.local
+
+# accidental npm install in workflow folder
+.github/workflows/package-lock.json

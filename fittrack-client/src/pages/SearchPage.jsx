@@ -3,14 +3,14 @@ import { Link, useSearchParams } from "react-router-dom";
 import API_BASE from "../config";
 
 const categoryStyle = {
-  Running:    { bg: "#e8f4f8", color: "#2d7dd2", img: "/images/running.jpg",    imgPos: "center 30%", emoji: "🏃" },
-  Gym:        { bg: "#f0faf0", color: "#27682a", img: "/images/gym.avif",        imgPos: "center top", emoji: "💪" },
-  Football:   { bg: "#f0f8f0", color: "#27ae60", img: "/images/football.jpg",                     imgPos: "center",     emoji: "⚽" },
-  Basketball: { bg: "#fff8f0", color: "#e67e22", img: "/images/basketball.jpg",                     imgPos: "center",     emoji: "🏀" },
+  Running:    { bg: "#e8f4f8", color: "#2d7dd2", img: "/images/running.jpg",    imgPos: "center 30%",  },
+  Gym:        { bg: "#f0faf0", color: "#27682a", img: "/images/gym.avif",        imgPos: "center top",  },
+  Football:   { bg: "#f0f8f0", color: "#27ae60", img: "/images/football.jpg",                     imgPos: "center",      },
+  Basketball: { bg: "#fff8f0", color: "#e67e22", img: "/images/basketball.jpg",                     imgPos: "center",      },
 
 };
 
-const defaultStyle = { bg: "#f8f8f5", color: "#6ebc67", img: "/images/workout.jpg", imgPos: "center", emoji: "🏅" };
+const defaultStyle = { bg: "#f8f8f5", color: "#6ebc67", img: "/images/workout.jpg", imgPos: "center", };
 
 function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();

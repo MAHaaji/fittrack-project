@@ -1,0 +1,30 @@
+# Continuous Integration: runs automatically on every push and pull request.
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  api-tests:
+    name: API tests (Jest)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: fittrack-api
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
