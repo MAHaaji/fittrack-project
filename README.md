@@ -31,7 +31,6 @@
 - [Running Tests](#running-tests)
 - [CI/CD Pipeline](#cicd-pipeline)
 - [Quality & Security](#quality--security)
-- [Screenshots](#screenshots)
 - [Legacy Code](#legacy-code)
 - [License](#license)
 
@@ -63,84 +62,26 @@ A legacy codebase (`fittrack-legacy`) is preserved in the repository for referen
 
 ---
 
+
 ## Architecture
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                        Browser                          │
-│                  fittrack-client (Vite)                 │
-│              React 19  ·  React Router 7                │
-│                   http://localhost:5173                  │
-└────────────────────────┬────────────────────────────────┘
-                         │ HTTP/JSON  (CORS: localhost:5173)
-                         ▼
-┌─────────────────────────────────────────────────────────┐
-│                   fittrack-api                          │
-│              Express 5  ·  Node.js 20                   │
-│                   http://localhost:5000                  │
-│                                                         │
-│  ┌──────────┐  ┌──────────┐  ┌──────────────────────┐  │
-│  │  /auth   │  │  /users  │  │  /workouts           │  │
-│  │ register │  │    /me   │  │  GET  POST  DELETE   │  │
-│  │  login   │  └──────────┘  └──────────────────────┘  │
-│  └──────────┘                                           │
-│                                                         │
-│  ┌──────────────────┐   ┌────────────────────────────┐  │
-│  │  /activities     │   │  /dashboard                │  │
-│  │  GET (public)    │   │  stats + recent workouts   │  │
-│  └──────────────────┘   └────────────────────────────┘  │
-│                                                         │
-│   Auth Middleware: JWT verify on all protected routes   │
-└────────────────────────┬────────────────────────────────┘
-                         │ pg Pool
-                         ▼
-┌─────────────────────────────────────────────────────────┐
-│                     PostgreSQL                          │
-│         users · activities · workout_logs               │
-└─────────────────────────────────────────────────────────┘
-```
+FitTrack is built as a full-stack web application using a React/Vite frontend, an Express/Node.js backend API and a PostgreSQL database. The frontend communicates with the backend through HTTP/JSON requests, while JWT authentication protects user-specific routes such as dashboard data and workout logs. A Stripe Checkout test-mode route is also included as a prototype external service integration.
 
-**Request lifecycle for a protected route:**
+![FitTrack architecture diagram](fittrack-architecture.png)
 
-```
-Client  ──►  Authorization: Bearer <token>
-         ──►  requireAuth middleware  ──►  jwt.verify()
-                    │                          │
-              invalid/missing            decoded { id, email }
-                    │                    attached to req.user
-                    ▼                          │
-              401 Unauthorized                 ▼
-                                       Route handler runs
-                                       pg query scoped to
-                                       req.user.id
-```
 
 ---
 
 ## Tech Stack
 
-### Backend — `fittrack-api`
-
-| Package | Version | Role |
-|---|---|---|
-| express | ^5.2.1 | HTTP framework & routing |
-| pg | ^8.20.0 | PostgreSQL client (connection pool) |
-| bcrypt | ^6.0.0 | Password hashing (10 salt rounds) |
-| jsonwebtoken | ^9.0.3 | JWT sign & verify (7d expiry) |
-| dotenv | ^17.3.1 | Environment variable loading |
-| cors | ^2.8.5 | CORS policy (origin: localhost:5173) |
-| jest | ^29.7.0 | Test runner |
-| supertest | ^7.2.2 | HTTP integration assertions |
-
-### Frontend — `fittrack-client`
-
-| Package | Version | Role |
-|---|---|---|
-| react | ^19.2.4 | UI component framework |
-| react-dom | ^19.2.4 | DOM renderer |
-| react-router-dom | ^7.14.1 | Client-side routing |
-| vite | ^8.0.1 | Dev server & production bundler |
-| eslint | ^9.39.4 | Code linting |
+| Area | Main Technologies |
+|---|---|
+| Frontend | React 19, Vite, React Router |
+| Backend | Node.js 20, Express 5 |
+| Database | PostgreSQL |
+| Authentication | bcrypt, JWT |
+| Testing | Jest, Supertest |
+| CI/CD | GitHub Actions |
 
 ---
 
@@ -176,6 +117,9 @@ fittrack-project/
 │
 ├── fittrack-legacy/            # Legacy codebase (reference only, not active)
 │
+├── fittrack-api-reference.png  # API reference diagram
+├── fittrack-architecture.png   # Architecture diagram
+├── fittrack-database-schema.png # Database schema diagram
 └── README.md
 ```
 
@@ -185,37 +129,7 @@ fittrack-project/
 
 Three tables. All workout data is user-scoped via `user_id` foreign key.
 
-```
-┌──────────────────────────────────────┐
-│               users                  │
-├──────────────┬───────────────────────┤
-│ id           │ SERIAL  PK            │
-│ name         │ TEXT    NOT NULL      │
-│ email        │ TEXT    UNIQUE NOT NULL│
-│ password_hash│ TEXT    NOT NULL      │
-└──────────────┴──────────┬────────────┘
-                          │ 1
-                          │
-                          │ N
-┌──────────────────────────────────────┐
-│            workout_logs              │
-├──────────────┬───────────────────────┤
-│ id           │ SERIAL  PK            │
-│ user_id      │ INTEGER FK → users.id │
-│ activity     │ TEXT    NOT NULL      │
-│ date_completed│ DATE   NOT NULL      │
-│ duration     │ INTEGER (minutes)     │
-│ notes        │ TEXT                  │
-└──────────────┴───────────────────────┘
-
-┌──────────────────────────────────────┐
-│            activities                │
-├──────────────┬───────────────────────┤
-│ id           │ SERIAL  PK            │
-│ name         │ TEXT    NOT NULL      │
-│ category     │ TEXT                  │
-└──────────────┴───────────────────────┘
-```
+![FitTrack database schema](fittrack-database-schema.png)
 
 Run this to create the schema:
 
@@ -299,6 +213,10 @@ PORT=5000
 
 # JWT signing secret — use a long random string in production
 JWT_SECRET=replace_this_with_a_strong_secret
+
+# Stripe Checkout test mode
+STRIPE_SECRET_KEY=sk_test_replace_with_your_own_key
+CLIENT_URL=http://localhost:5173
 ```
 
 > `.env` is excluded from version control via `.gitignore`. Never commit credentials.
@@ -311,140 +229,10 @@ Base URL: `http://localhost:5000`
 
 Protected routes require: `Authorization: Bearer <token>`
 
----
 
-### Health
+![FitTrack API Reference](fittrack-api-reference.png)
 
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| `GET` | `/api/health` | None | Service health check |
 
-**Response**
-```json
-{ "status": "ok" }
-```
-
----
-
-### Auth
-
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| `POST` | `/api/auth/register` | None | Create a new account |
-| `POST` | `/api/auth/login` | None | Login and receive JWT |
-
-**POST `/api/auth/register`**
-
-```json
-// Request
-{ "name": "Jane Doe", "email": "jane@example.com", "password": "securepass123" }
-
-// 201 Created
-{ "user": { "id": 1, "name": "Jane Doe", "email": "jane@example.com" } }
-```
-
-Validation rules: name required · email must be valid format · password min 8 characters · duplicate email returns `409`.
-
-**POST `/api/auth/login`**
-
-```json
-// Request
-{ "email": "jane@example.com", "password": "securepass123" }
-
-// 200 OK
-{
-  "token": "<jwt — valid 7 days>",
-  "user": { "id": 1, "name": "Jane Doe", "email": "jane@example.com" }
-}
-```
-
----
-
-### User
-
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| `GET` | `/api/users/me` | Required | Get authenticated user's profile |
-
-```json
-// 200 OK
-{ "id": 1, "name": "Jane Doe", "email": "jane@example.com" }
-```
-
----
-
-### Activities
-
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| `GET` | `/api/activities` | None | List all activity types |
-
-```json
-// 200 OK
-[
-  { "id": 1, "name": "Running", "category": "Cardio" },
-  { "id": 2, "name": "Cycling", "category": "Cardio" }
-]
-```
-
----
-
-### Workouts
-
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| `GET` | `/api/workouts` | Required | Get all workouts for authenticated user |
-| `POST` | `/api/workouts` | Required | Log a new workout |
-| `DELETE` | `/api/workouts/:id` | Required | Delete a workout by ID |
-
-**POST `/api/workouts`**
-
-```json
-// Request
-{
-  "activity": "Running",
-  "date_completed": "2025-06-10",
-  "duration": 45,
-  "notes": "Felt great today"
-}
-
-// 201 Created
-{
-  "id": 12,
-  "user_id": 1,
-  "activity": "Running",
-  "date_completed": "2025-06-10",
-  "duration": 45,
-  "notes": "Felt great today"
-}
-```
-
-**DELETE `/api/workouts/:id`**
-
-Returns `204 No Content` on success. Returns `404` if the workout doesn't exist or belongs to a different user.
-
----
-
-### Dashboard
-
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| `GET` | `/api/dashboard` | Required | Aggregate stats + 5 most recent workouts |
-
-```json
-// 200 OK
-{
-  "total_workouts": 24,
-  "total_duration": 1080,
-  "avg_duration": 45,
-  "recent_workouts": [
-    { "activity": "Running", "date_completed": "2025-06-10", "duration": 45 },
-    { "activity": "Cycling", "date_completed": "2025-06-08", "duration": 60 }
-  ]
-}
-```
-
----
 
 ### Error Responses
 
@@ -485,31 +273,9 @@ Test coverage:
 
 ## CI/CD Pipeline
 
-A GitHub Actions workflow runs automatically on every **push** and **pull request** to any branch.
+A GitHub Actions workflow runs the API test suite automatically on every push and pull request. The workflow installs the backend dependencies inside `fittrack-api` and runs the Jest/Supertest tests.
 
-```
-Push / Pull Request
-       │
-       ▼
-  Checkout code
-       │
-       ▼
-  Setup Node.js 20
-       │
-       ▼
-  npm install (fittrack-api)
-       │
-       ▼
-  npm test (Jest)
-       │
-    ┌──┴──┐
-         
-  Pass   Fail
-```
-
-> Client-side tests (Vitest) will be added to the pipeline once the suite is configured — see the comment in `ci.yml`.
-
-A green check on a pull request means all API tests pass and the branch is safe to merge.
+A green workflow check means the API tests have passed.
 
 ---
 
