@@ -25,7 +25,9 @@ const pool = new Pool({
 // The secret key lives only here, on the server, read from an environment
 // variable. It is never sent to the frontend and never appears in any
 // response. The frontend only ever receives a Checkout Session URL (below).
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = process.env.STRIPE_SECRET_KEY
+  ? new Stripe(process.env.STRIPE_SECRET_KEY)
+  : null;
 
 // Base URL of the React app, used to build the redirect URLs Stripe sends
 // the user back to after Checkout completes or is cancelled.
@@ -345,6 +347,12 @@ app.post("/api/payments/create-checkout-session", requireAuth, async (req, res, 
   const selectedPlan = PLAN_PRICES[plan];
   if (!selectedPlan) {
     return res.status(400).json({ message: "Unknown or missing plan" });
+  }
+
+  if (!stripe) {
+    return res.status(503).json({
+      message: "Stripe Checkout is not configured"
+    });
   }
 
   try {
